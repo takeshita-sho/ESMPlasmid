@@ -6,7 +6,8 @@
 from typing import Union
 import torch
 import torch.nn as nn
-
+import sys
+sys.path.append('/nfshomes/stakeshi/esm')
 import esm
 from esm.modules import ContactPredictionHead, ESM1bLayerNorm, RobertaLMHead, TransformerLayer
 
@@ -24,8 +25,8 @@ class ESM2(nn.Module):
         self.num_layers = num_layers
         self.embed_dim = embed_dim
         self.attention_heads = attention_heads
-        if not isinstance(alphabet, esm.data.Alphabet):
-            alphabet = esm.data.Alphabet.from_architecture(alphabet)
+        #if not isinstance(alphabet, esm.data.Alphabet):
+            #alphabet = esm.data.Alphabet.from_architecture(alphabet)
         self.alphabet = alphabet
         self.alphabet_size = len(alphabet)
         self.padding_idx = alphabet.padding_idx

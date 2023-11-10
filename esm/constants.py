@@ -4,6 +4,9 @@
 # LICENSE file in the root directory of this source tree.
 
 # fmt: off
+dnaseq_toks = {
+    'toks': ['A','C','G','T']
+}
 proteinseq_toks = {
     'toks': ['L', 'A', 'G', 'V', 'S', 'E', 'R', 'T', 'I', 'D', 'P', 'K', 'Q', 'N', 'F', 'Y', 'M', 'H', 'W', 'C', 'X', 'B', 'U', 'Z', 'O', '.', '-']
 }
