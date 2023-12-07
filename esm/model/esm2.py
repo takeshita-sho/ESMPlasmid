@@ -78,6 +78,9 @@ class ESM2(nn.Module):
     def forward(self, tokens, repr_layers=[], need_head_weights=False, return_contacts=False):
         if return_contacts:
             need_head_weights = True
+        print('Tokens: ')
+        print(tokens)
+        print(tokens.ndim)
 
         assert tokens.ndim == 2
         padding_mask = tokens.eq(self.padding_idx)  # B, T
