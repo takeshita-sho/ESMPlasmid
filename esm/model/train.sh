@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -J train # Job name
-#SBATCH -o /nfshomes/stakeshi/esm/esm/model/train.o # Name of output file
+#SBATCH -o /nfshomes/stakeshi/esm/esm/model/train-%j.o # Name of output file
 #SBATCH -e /nfshomes/stakeshi/esm/esm/model/train-%j.e # Name of error file
 #SBATCH --time=1-00:00:00
 #SBATCH --partition=cbcb
