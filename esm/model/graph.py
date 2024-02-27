@@ -25,7 +25,7 @@ def plot_loss_vs_step(df):
     plt.savefig('/nfshomes/stakeshi/esm/esm/model/graph.png',dpi=800)
 
 def main():
-    file_path = '/nfshomes/stakeshi/esm/esm/model/train-1785743.o'  # Replace with the path to your file
+    file_path = '/nfshomes/stakeshi/esm/esm/model/train-2188111.o'  # Replace with the path to your file
     loss_values = read_loss_from_file(file_path)
 
     if loss_values:

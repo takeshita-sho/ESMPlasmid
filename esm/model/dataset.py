@@ -16,27 +16,46 @@ import constants
 import data
 
 dna_alphabet = data.Alphabet(constants.dnaseq_toks["toks"])
+kmer_size = 1024
 
 # Define a custom dataset to load your metagenome assembly data.
 class MetagenomeDataset(Dataset):
     def __init__(self, data_dir):
         self.data_files = [os.path.join(data_dir, filename) for filename in os.listdir(data_dir)]
         self.data = []
-        self.maxlen = 200 #maybe change this
+        self.maxlen = kmer_size
         for i in self.data_files:
             print(i)
             for j in self.process_fa_file(i):
                 # tokenizes and encodes data
-                # need to add masked function and padding function
                 length = len(j)
-                if length >= 200:
-                    self.data.append(j)
-                    if length > self.maxlen:
-                        self.maxlen = length
-
-                # I need to store as strings first and get longest sequence
+                if length >= kmer_size:
+                    k = 0
+                    while k < length:
+                        # To add later - BOS and EOS tokens to indicated start and end of a real protein
+                        if k+kmer_size > length:
+                            seq = j[k:]
+                            pad = self.maxlen-len(seq)
+                            padding = "<pad>"*pad
+                            seq = seq+padding
+                            tok_seq = dna_alphabet.encode(seq)
+                            self.data.append(torch.tensor(tok_seq, dtype=torch.int64))
+                            break
+                        else:
+                            tok_seq = dna_alphabet.encode(j[k:k+kmer_size])
+                            self.data.append(torch.tensor(tok_seq, dtype=torch.int64))
+                        k += 500
+                elif length == kmer_size:
+                    tok_seq = dna_alphabet.encode(j)
+                    self.data.append(torch.tensor(tok_seq, dtype=torch.int64))
+                else:
+                    pad = self.maxlen-length
+                    padding = "<pad>"*pad
+                    seq = j+padding
+                    tok_seq = dna_alphabet.encode(seq)
+                    self.data.append(torch.tensor(tok_seq, dtype=torch.int64))
                 # then create second loop that adds padding and returns encoding
-                
+        '''       
         for i in range(len(self.data)):
             seq = self.data[i]
             length = len(seq)
@@ -52,6 +71,7 @@ class MetagenomeDataset(Dataset):
 
             # Convert the token IDs to a tensor
             self.data[i] = torch.tensor(tokenized_sequence, dtype=torch.int64)
+        '''
         
     def process_fa_file(self,file_path):
         sequences = []
@@ -74,4 +94,4 @@ class MetagenomeDataset(Dataset):
     
     def __getitem__(self, index):
         #label = self.labels[index]
-        return self.data[index][0:100]
+        return self.data[index]
