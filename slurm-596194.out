@@ -1,0 +1,2 @@
+srun: error: heron07: task 0: Exited with exit code 2
+slurmstepd: error: execve(): Python3: No such file or directory
